@@ -12,7 +12,7 @@ const ButtonDel = styled.button`
   cursor: pointer;
 `;
 
-const ContactListItem = ({ contact, onDelete }) => (
+const ContactListItem = ({ contact, onDeleteContact }) => (
   <li>
     {contact.name}: {contact.number}
     <ButtonDel onClick={onDeleteContact}>Delete</ButtonDel>
