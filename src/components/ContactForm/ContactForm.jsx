@@ -53,17 +53,13 @@ const ContactForm = ({ onSubmit }) => {
     setName(evt.target.value);
   };
 
-  // const handleNumberChange = evt => {
-  //   setNumber(evt.target.value);
-  // };
-
   const handleNumberChange = (event) => {
     let input = event.target.value;
     input = input.replace(/\D/g, "").slice(0, 8); 
     input = input.replace(/(\d{3})(\d{2})(\d{2})/, "$1-$2-$3"); 
     setNumber(input);
   };
-  
+
   const handleSubmit = e => {
     e.preventDefault();
 
