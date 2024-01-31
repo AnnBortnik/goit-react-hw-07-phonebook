@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
-import { useDispatch, useSelector } from 'react-redux';
-import { actions } from '../contactsSlice'; 
 import styled from 'styled-components';
 
 const FormContainer = styled.form`
@@ -48,16 +45,17 @@ const AddButton = styled.button`
 }
 `;
 
-const ContactForm = () => {
+const ContactForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const dispatch = useDispatch();
-  
-  const contacts = useSelector(state => state.contacts.contacts);
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const handleNameChange = evt => {
+    setName(evt.target.value);
   };
+
+  // const handleNumberChange = evt => {
+  //   setNumber(evt.target.value);
+  // };
 
   const handleNumberChange = (event) => {
     let input = event.target.value;
@@ -65,23 +63,13 @@ const ContactForm = () => {
     input = input.replace(/(\d{3})(\d{2})(\d{2})/, "$1-$2-$3"); 
     setNumber(input);
   };
+  
+  const handleSubmit = e => {
+    e.preventDefault();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const newContact = { id: nanoid(), name, number };
-
-    // if a contact with the same name already exists
-    const doesExist = contacts.some(
-      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
-    );
-
-    if (doesExist) {
-      alert(`${newContact.name} is already in contacts.`);
-    } else {
-      dispatch(actions.addContact(newContact));
-    }
-     setName('');
-     setNumber('');
+    onSubmit(name, number);
+    setName('');
+    setNumber('');
   };
 
   return (
@@ -100,6 +88,7 @@ const ContactForm = () => {
         <StyledNumber>Number:</StyledNumber>
         <InputName
           type="tel"
+          name="number"
           pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
           placeholder="222-22-22"
           value={number}
